@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        IMAGE_NAME = 'gantangdev/simple-flask-api'
+        IMAGE_NAME = 'sugus12/simple-flask-api'
     }
 
     stages {
@@ -32,9 +32,9 @@ pipeline {
         }
 
         stage('Push to Docker Hub') {
-            steps {
+          steps {
                 withDockerRegistry([credentialsId: 'dockerhub-creds']) {
-                    sh 'docker push sugus12/simple-flask-api:latest'
+                  sh 'docker push $IMAGE_NAME:latest'
                 }
             }
         }
