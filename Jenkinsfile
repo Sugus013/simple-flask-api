@@ -34,7 +34,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withDockerRegistry([credentialsId: 'dockerhub-creds']) {
-                    sh 'docker push $IMAGE_NAME'
+                    sh 'docker push sugus12/simple-flask-api:latest'
                 }
             }
         }
