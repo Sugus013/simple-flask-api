@@ -6,12 +6,12 @@ pipeline {
         DOCKER_CRED = 'dockerhub-creds' // buat credential ini di Jenkins
     }
 
-    stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/gantangdev/simple-flask-api.git' // ganti ke repo kamu
+                git credentialsId: 'github-creds', url: 'https://github.com/Sugus013/simple-flask-api.git'
             }
         }
+
 
         stage('Unit Test') {
             steps {
