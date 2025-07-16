@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github-creds', url: 'https://github.com/Sugus013/simple-flask-api.git'
+                git credentialsId: 'github-creds', url: 'https://github.com/Sugus013/simple-flask-api.git', branch: 'main'
             }
         }
 
