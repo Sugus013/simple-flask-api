@@ -2,20 +2,21 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'gantangdev/simple-flask-api' // ganti sesuai Docker Hub lo
-        DOCKER_CRED = 'dockerhub-creds' // buat credential ini di Jenkins
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        IMAGE_NAME = 'gantangdev/simple-flask-api'
     }
 
+    stages {
         stage('Checkout') {
             steps {
                 git credentialsId: 'github-creds', url: 'https://github.com/Sugus013/simple-flask-api.git'
             }
         }
 
-
         stage('Unit Test') {
             steps {
-                sh 'pip install -r requirements.txt && pytest test_app.py'
+                sh 'pip install -r requirements.txt'
+                sh 'pytest'
             }
         }
 
@@ -27,11 +28,8 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "$DOCKER_CRED", usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh '''
-                        echo "$PASS" | docker login -u "$USER" --password-stdin
-                        docker push $IMAGE_NAME
-                    '''
+                withDockerRegistry([credentialsId: 'dockerhub-creds']) {
+                    sh 'docker push $IMAGE_NAME'
                 }
             }
         }
